@@ -10,29 +10,29 @@ file(
     GLOB
     SRC_ADDONS
 
-    "src/addons/*.h"
-    "src/addons/*.cpp"
+    ${CMAKE_CURRENT_LIST_DIR}/addons/*.h
+    ${CMAKE_CURRENT_LIST_DIR}/addons/*.cpp
 )
 
 file(
     GLOB
     SRC_PROJECTS
 
-    "src/projects/*.h"
-    "src/projects/*.cpp"
+    ${CMAKE_CURRENT_LIST_DIR}/projects/*.h
+    ${CMAKE_CURRENT_LIST_DIR}/projects/*.cpp
 )
 
 file(
     GLOB
     SRC_UTILS
 
-    "src/utils/*.h"
-    "src/utils/*.cpp"
+    ${CMAKE_CURRENT_LIST_DIR}/utils/*.h
+    ${CMAKE_CURRENT_LIST_DIR}/utils/*.cpp
 )
 
 source_group( src\\addons FILES ${SRC_ADDONS} )
 source_group( src\\projects FILES ${SRC_PROJECTS} )
 source_group( src\\utils FILES ${SRC_UTILS} )
-source_group( src FILES src/main.cpp )
+source_group( src FILES ${CMAKE_CURRENT_LIST_DIR}/main.cpp )
 
-set( INTERNAL ${SRC_ADDONS} ${SRC_PROJECTS} ${SRC_UTILS} src/main.cpp )
+set( INTERNAL ${CMAKE_CURRENT_LIST_DIR}/main.cpp )

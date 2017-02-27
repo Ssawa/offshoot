@@ -2,7 +2,7 @@ file(
     GLOB
     HASHLIB2PLUS_SRC
 
-    "${CMAKE_CURRENT_LIST_DIR}/src/*.cpp"
+    ${CMAKE_CURRENT_LIST_DIR}/src/*.cpp
 )
 
 set(HASHLIB2PLUS_INCLUDE ${CMAKE_CURRENT_LIST_DIR}/include)

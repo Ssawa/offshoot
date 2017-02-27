@@ -1,8 +1,10 @@
 cmake_minimum_required( VERSION 3.0 )
 
-project ( projectGenerator )
+project ( offshoot )
+
+set( CMAKE_RUNTIME_OUTPUT_DIRECTORY bin/ )
 
 include( thirdparty/thirdparty.cmake )
-include( internal.cmake )
+include( src/internal.cmake )
 
-add_executable( projectGenerator ${INTERNAL} ${THIRDPARTY})
+add_executable( offshoot ${INTERNAL} ${THIRDPARTY})
