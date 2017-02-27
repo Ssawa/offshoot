@@ -1,13 +1,9 @@
-cmake_minimum_required( VERSION 3.1 )
+cmake_minimum_required( VERSION 3.0 )
 
 project ( projectGenerator )
 
-file(
-    GLOB_RECURSE
-    projectGenerator_SRC
-    ./src
-    "*.h"
-    "*.cpp"
-)
+include( deps.cmake )
 
-add_executable( projectGenerator ${projectGenerator_SRC} )
+include( internal.cmake )
+
+add_executable( projectGenerator ${INTERNAL} ${DEPS})
