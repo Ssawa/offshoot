@@ -1,6 +1,7 @@
 #include <string>
 #include <iostream>
 #include <tclap/CMDLine.h>
+#include "offshoot/commands/MainCommand.h"
 
 // Are raw pointers now *completely* improper in the era of shared_pointers or is it only for "hot code"?
 // I'm out of the loop but I'm not too worried about us leaking memory from our argument parser(s), but feel
@@ -20,6 +21,8 @@ TCLAP::CmdLine* ListCommand() {
 
 int main(int argc, char** argv) {
 	try {
+		auto mainCmd = offshoot::MainCommand();
+		mainCmd.start(argc, argv);
 		TCLAP::CmdLine cmd("offshoot is a fork of the OpenFrameworks maintained projectGenerator to assist in the creation of an OpenFrameworks project with a focus on working outside of the OpenFrameworks source tree and to be built without relying on OpenFrameworks as a library. Get it? 'OF'fshoot. Very clever.", ' ', "0.1");
 		
 		TCLAP::UnlabeledValueArg<std::string> projectPathArg("projectPath", "Either a path to where you want your project to be created or a path to an existing project to be updated", false, "", "path", cmd);

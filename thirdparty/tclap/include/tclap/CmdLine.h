@@ -162,9 +162,11 @@ private:
 		/**
 		 * Prevent accidental copying.
 		 */
+		/* SUPPRESSED BY OFFSHOOT - WE WANT COPYING
 		CmdLine(const CmdLine& rhs);
 		CmdLine& operator=(const CmdLine& rhs);
-
+		 */
+	
 		/**
 		 * Encapsulates the code common to the constructors
 		 * (which is all of it).

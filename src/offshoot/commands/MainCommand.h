@@ -4,7 +4,11 @@
 #include "Command.h"
 
 namespace offshoot {
-	class MainCommand : Command {
+	class MainCommand : public Command {
+		
+	protected:
+		TCLAP::CmdLine cmd;
+		
 	public:
 		MainCommand();
 	};
