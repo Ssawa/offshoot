@@ -5,10 +5,18 @@
 // Are raw pointers now *completely* improper in the era of shared_pointers or is it only for "hot code"?
 // I'm out of the loop but I'm not too worried about us leaking memory from our argument parser(s), but feel
 // free to refactor to use shared_pointers if it's the proper way of doing things.
-TCLAP::CmdLine* makeListCommand() {
+
+TCLAP::CmdLine* MainCommand() {
+	TCLAP::CmdLine* cmd = new TCLAP::CmdLine("offshoot is a fork of the OpenFrameworks maintained projectGenerator to assist in the creation of an OpenFrameworks project with a focus on working outside of the OpenFrameworks source tree and to be built without relying on OpenFrameworks as a library. Get it? 'OF'fshoot. Very clever.");
+	
+	return cmd;
+}
+
+TCLAP::CmdLine* ListCommand() {
 	TCLAP::CmdLine* cmd = new TCLAP::CmdLine("", ' ');
 	return cmd;
 }
+
 
 int main(int argc, char** argv) {
 	try {
