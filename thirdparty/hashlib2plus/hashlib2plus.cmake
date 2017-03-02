@@ -1,3 +1,8 @@
+# You might be wondering why we're including this library when POCO has a perfectly
+# good Crypto library. Unfortunatly, POCO's library is dependent on OpenSSL and,
+# seeing as we're only potentially interested in the MD5 of a file, this is just
+# easier.
+
 file(
     GLOB
     HASHLIB2PLUS_SRC
