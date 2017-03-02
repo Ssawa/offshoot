@@ -30,9 +30,18 @@ file(
     ${CMAKE_CURRENT_LIST_DIR}/utils/*.cpp
 )
 
+file(
+    GLOB
+    SRC_TEMPLATES
+
+    ${CMAKE_CURRENT_LIST_DIR}/templates/*.h
+    ${CMAKE_CURRENT_LIST_DIR}/templates/*.cpp
+)
+
 source_group( src\\addons FILES ${SRC_ADDONS} )
 source_group( src\\projects FILES ${SRC_PROJECTS} )
 source_group( src\\utils FILES ${SRC_UTILS} )
+source_group( src\\templates FILES ${SRC_TEMPLATES} )
 source_group( src FILES ${CMAKE_CURRENT_LIST_DIR}/main.cpp )
 
-set( INTERNAL ${CMAKE_CURRENT_LIST_DIR}/main.cpp )
+set( INTERNAL ${SRC_TEMPLATES} ${CMAKE_CURRENT_LIST_DIR}/main.cpp )
