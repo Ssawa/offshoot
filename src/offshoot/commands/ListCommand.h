@@ -7,9 +7,6 @@ namespace offshoot {
 	class ListCommand : public Command {
 		
 	protected:
-		std::string name = "list";
-		TCLAP::CmdLine cmd;
-
 		int execute();
 
 	public:

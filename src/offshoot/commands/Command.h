@@ -23,11 +23,7 @@ namespace offshoot {
 		virtual int execute() = 0;
 		
 	public:
-		Command() : cmd("Abstract Command - You should never see this", ' ', VERSION) {
-			
-		}
-		
-		~Command() {
+		Command(std::string name, std::string description) : name(name), cmd(description, ' ', VERSION) {
 			
 		}
 		

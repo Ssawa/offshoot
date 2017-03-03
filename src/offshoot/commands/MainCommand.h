@@ -6,9 +6,7 @@
 namespace offshoot {
 	class MainCommand : public Command {
 		
-	protected:
-		TCLAP::CmdLine cmd;
-		
+	protected:		
 		int execute();
 
 	public:
