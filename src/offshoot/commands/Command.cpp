@@ -48,6 +48,9 @@ namespace offshoot {
 			std::string possibleCommand = args[1];
 			auto subCommand = this->subcommands.find(possibleCommand);
 			if (subCommand != this->subcommands.end()) {
+				// Append to the program name so that it appears properly under Usage
+				args[0] += " " + possibleCommand;
+
 				// This is what makes me slightly ansy. Should we just use a stupid linked-list?
 				args.erase(args.begin() + 1);
 				return subCommand->second->run(args);

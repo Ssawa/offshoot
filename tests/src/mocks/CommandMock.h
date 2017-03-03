@@ -13,10 +13,10 @@ public:
 	// indication that we're interfacing with it correctly
 	TCLAP::ValueArg<std::string> valueArg;
 	
-	MockCommand() : valueArg("v", "value", "", false, "", "string", this->cmd) {
+	MockCommand() : offshoot::Command("", ""), valueArg("v", "value", "", false, "", "string", this->cmd) {
 	}
 	
-	MockCommand(std::string name) : valueArg("v", "value", "", false, "", "string", this->cmd) {
+	MockCommand(std::string name) : offshoot::Command(name, ""), valueArg("v", "value", "", false, "", "string", this->cmd) {
 		this->name = name;
 	}
 	
