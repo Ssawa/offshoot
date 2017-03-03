@@ -20,6 +20,7 @@ namespace offshoot {
 		std::map<std::string, std::shared_ptr<Command> > subcommands;
 		
 		virtual void addSubCommand(std::shared_ptr<Command> subCommand);
+		virtual int execute() = 0;
 		
 	public:
 		Command() : cmd("Abstract Command - You should never see this", ' ', VERSION) {
@@ -34,6 +35,8 @@ namespace offshoot {
 		
 		virtual int start(int argc, char** argv);
 		virtual int run(std::vector<std::string>& args);
+		
+		void setTCLAPExceptionHandling(const bool state);
 	};
 }
 

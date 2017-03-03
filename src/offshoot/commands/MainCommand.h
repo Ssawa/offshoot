@@ -9,6 +9,8 @@ namespace offshoot {
 	protected:
 		TCLAP::CmdLine cmd;
 		
+		int execute();
+
 	public:
 		MainCommand();
 	};

@@ -8,14 +8,16 @@ namespace offshoot {
 		
 	protected:
 		std::string name = "list";
-		
 		TCLAP::CmdLine cmd;
-		
+
+		int execute();
+
 	public:
 		
 		TCLAP::ValueArg<std::string> ofPathArg;
 		
 		ListCommand();
+
 	};
 }
 

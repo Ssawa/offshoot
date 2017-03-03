@@ -10,6 +10,7 @@ LinkPocoLib(test_offshoot PocoNet)
 LinkPocoLib(test_offshoot PocoUtil)
 LinkPocoLib(test_offshoot PocoXML)
 
+target_include_directories( test_offshoot PUBLIC ${CMAKE_CURRENT_LIST_DIR}/src/ )
 target_include_directories( test_offshoot PUBLIC ${CMAKE_CURRENT_LIST_DIR}/../src )
 
 # We do something a little different here, compared to the offshoot exe.

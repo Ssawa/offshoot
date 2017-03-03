@@ -9,4 +9,7 @@ namespace offshoot {
 			this->addSubCommand(std::shared_ptr<Command>(new ListCommand()));
 	}
 
+	int MainCommand::execute() {
+		return 0;
+	}
 }

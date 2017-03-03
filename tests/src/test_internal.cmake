@@ -16,4 +16,5 @@ macro(add_test_folder relPath)
 endmacro()
 
 add_test_folder("/")
+add_test_folder("mocks")
 add_test_folder("offshoot/commands")
