@@ -82,3 +82,35 @@ TEST(offshoot_Command, RunMethodSubCommandBadParse) {
 	
 	ASSERT_THROW(cmd.offshoot::Command::run(args), TCLAP::CmdLineParseException);
 }
+
+// Test that the CommandOutput is correct
+TEST(offshoot_CommandOutput, ) {
+	struct SubCommand1 : offshoot::Command {
+		TCLAP::ValueArg<std::string> arg;
+		SubCommand1() : offshoot::Command("sub1", ""), arg("t", "test", "", true, "", "string", this->cmd) {}
+	};
+	
+	struct SubCommand2 : offshoot::Command {
+		TCLAP::UnlabeledValueArg<std::string> arg;
+		SubCommand2() : offshoot::Command("sub2", ""), arg("test", "", true, "", "string", this->cmd) {}
+	};
+	
+	struct MainCommand : offshoot::Command {
+		MainCommand() : offshoot::Command("", "") {
+			addSubCommand(std::shared_ptr<SubCommand1>(new SubCommand1()));
+			addSubCommand(std::shared_ptr<SubCommand2>(new SubCommand2()));
+		}
+		
+		offshoot::Command::CommandOutput* getOutput() {
+			return this->output;
+		}
+	};
+	
+	MainCommand cmd;
+	std::stringstream expected;
+	expected << "Subcommands:" << std::endl << std::endl << "   not_set_yet sub1  -t <string> [--] [--version] [-h]" << std::endl << std::endl << "   not_set_yet sub2  [--] [--version] [-h] <string>" << std::endl;
+	
+	std::stringstream stream;
+	cmd.getOutput()->printSubcommands(stream);
+	ASSERT_EQ(stream.str(), expected.str());
+}

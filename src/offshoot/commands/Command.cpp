@@ -2,6 +2,19 @@
 
 namespace offshoot {
 	
+	Command::Command(std::string name, std::string description) : Command(name, description, new CommandOutput(this)) {
+	};
+	
+	// THE POINTER THAT IS PASSED IN HERE WILL BE CLEANED UP BY OUR DESTRUCTOR, SO DON'T COUNT ON IT STICKING AROUND
+	Command::Command(std::string name, std::string description, CommandOutput* output) : name(name), cmd(description, ' ', VERSION) {
+		this->output = output;
+		this->cmd.setOutput(this->output);
+	}
+	
+	Command::~Command() {
+		delete this->output;
+	}
+	
 	void Command::addSubCommand(std::shared_ptr<Command> subCommand) {
 		this->subcommands.insert(std::pair<std::string, std::shared_ptr<Command> >(subCommand->getName(), subCommand));
 	}
@@ -59,5 +72,100 @@ namespace offshoot {
 		}
 		this->cmd.parse(args);
 		return this->execute();
+	}
+	
+	// Here we copy, paste, and tweak, a few functions from TCLAP so it might look a little
+	// hairy. We're just trying to make it so that the subcommands get listed
+	// for the help and error returns.
+	
+	void Command::CommandOutput::usage(TCLAP::CmdLineInterface& _cmd )
+	{
+		std::cout << std::endl << "USAGE: " << std::endl << std::endl;
+		
+		TCLAP::StdOutput::_shortUsage( _cmd, std::cout );
+		
+		std::cout << std::endl << std::endl << "Where: " << std::endl << std::endl;
+		
+		_longUsage( _cmd, std::cout );
+		
+		std::cout << std::endl;
+
+		this->printSubcommands(std::cout);
+	}
+	
+	void Command::CommandOutput::failure( TCLAP::CmdLineInterface& _cmd,
+										 TCLAP::ArgException& e )
+	{
+		std::string progName = _cmd.getProgramName();
+		
+		std::cerr << "PARSE ERROR: " << e.argId() << std::endl
+		<< "             " << e.error() << std::endl << std::endl;
+		
+		if ( _cmd.hasHelpAndVersion() )
+		{
+			std::cerr << "Brief USAGE: " << std::endl;
+			
+			TCLAP::StdOutput::_shortUsage( _cmd, std::cerr );
+			
+			std::cout << std::endl;
+			
+			this->printSubcommands(std::cout);
+
+			std::cerr << std::endl << "For complete USAGE and HELP type: "
+			<< std::endl << "   " << progName << " --help"
+			<< std::endl << std::endl;
+		}
+		else
+			usage(_cmd);
+		
+		throw TCLAP::ExitException(1);
+	}
+	
+	void Command::CommandOutput::printSubcommands(std::ostream& os) {
+		auto subCommands = this->command->subcommands;
+		if (!subCommands.empty()) {
+			std::cout << std::endl;
+
+			os << "Subcommands:" << std::endl;
+			for (auto const& it : subCommands) {
+				os << std::endl;
+				std::string progName = this->command->cmd.getProgramName() + " " + it.second->getName();
+				it.second->output->_shortUsage(it.second->cmd, os, progName);
+			}
+			
+			std::cout << std::endl;
+		}
+	}
+	
+	void Command::CommandOutput::_shortUsage( TCLAP::CmdLineInterface& _cmd, std::ostream& os, std::string progName )
+	{
+		std::list<TCLAP::Arg*> argList = _cmd.getArgList();
+		TCLAP::XorHandler xorHandler = _cmd.getXorHandler();
+		std::vector< std::vector<TCLAP::Arg*> > xorList = xorHandler.getXorList();
+		
+		std::string s = progName + " ";
+		
+		// first the xor
+		for ( int i = 0; static_cast<unsigned int>(i) < xorList.size(); i++ )
+		{
+			s += " {";
+			for ( TCLAP::ArgVectorIterator it = xorList[i].begin();
+				 it != xorList[i].end(); it++ )
+				s += (*it)->shortID() + "|";
+			
+			s[s.length()-1] = '}';
+		}
+		
+		// then the rest
+		for (TCLAP::ArgListIterator it = argList.begin(); it != argList.end(); it++)
+			if ( !xorHandler.contains( (*it) ) )
+				s += " " + (*it)->shortID();
+		
+		// if the program name is too long, then adjust the second line offset
+		int secondLineOffset = static_cast<int>(progName.length()) + 2;
+		if ( secondLineOffset > 75/2 )
+			secondLineOffset = static_cast<int>(75/2);
+		
+		spacePrint( os, s, 75, 3, secondLineOffset );
 	}
 }

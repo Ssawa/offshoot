@@ -4,7 +4,7 @@
 int main(int argc, char** argv) {
 	try {
 		
-		offshoot::MainCommand().start(argc, argv);
+		return offshoot::MainCommand().start(argc, argv);
 		
 	} catch (TCLAP::ArgException &e) {
 		

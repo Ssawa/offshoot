@@ -6,6 +6,7 @@
 
 #include "offshoot/commands/Command.h"
 
+
 class MockCommand : public offshoot::Command {
 public:
 	// We won't go ahead and do a comprehensive test of everything TCLAP has to offer,
@@ -13,12 +14,10 @@ public:
 	// indication that we're interfacing with it correctly
 	TCLAP::ValueArg<std::string> valueArg;
 	
-	MockCommand() : offshoot::Command("", ""), valueArg("v", "value", "", false, "", "string", this->cmd) {
-	}
-	
-	MockCommand(std::string name) : offshoot::Command(name, ""), valueArg("v", "value", "", false, "", "string", this->cmd) {
-		this->name = name;
-	}
+	MockCommand(std::string name) : offshoot::Command(name, ""), valueArg("v", "value", "", false, "", "string", this->cmd) {}
+	MockCommand() : MockCommand("") {}
+
+	MockCommand(std::string name, offshoot::Command::CommandOutput* output) : offshoot::Command(name, "", output), valueArg("v", "value", "", false, "", "string", this->cmd) {}
 	
 	// Make addSubCommand public and not mocked
 	virtual void nonMockedAddSubCommand(std::shared_ptr<Command> subCommand) {
@@ -40,6 +39,12 @@ public:
 	virtual int run(std::vector<std::string>& args) {
 		return offshoot::Command::run(args);
 	}
+};
+
+class MockCommandOutput : public offshoot::Command::CommandOutput {
+	MOCK_METHOD3(_shortUsage, void(TCLAP::CmdLineInterface& _cmd, std::ostream& os, std::string progName));
+	MOCK_METHOD1(usage, void(TCLAP::CmdLineInterface& _cmd));
+	MOCK_METHOD2(failure, void( TCLAP::CmdLineInterface& _cmd, TCLAP::ArgException& e ));
 };
 
 #endif
