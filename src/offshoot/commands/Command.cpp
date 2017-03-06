@@ -1,4 +1,5 @@
 #include "Command.h"
+#include "Poco/Path.h"
 
 namespace offshoot {
 	
@@ -55,6 +56,12 @@ namespace offshoot {
 	    ourselves or pass on to a subcommand.
 	 */
 	int Command::run(std::vector<std::string>& args) {
+		
+		// Clean up our first argument so that it looks cleaner in the usage window (only the executable name, not the full path)
+		// Poco is kind of growing on me, by the way. It's not nearly as monolithic as Boost and does pretty much what you need.
+		// Unfortunatly I believe Boost's filesystem API is going to be integrated into C++17 so we're backing the wrong pony a bit.
+		Poco::Path programPath = Poco::Path(args[0]);
+		args[0] = programPath.getFileName();
 		
 		// Our first argument is the program path, and TCLAP expects it to be there
 		if (args.size() > 1) {
@@ -168,4 +175,19 @@ namespace offshoot {
 		
 		spacePrint( os, s, 75, 3, secondLineOffset );
 	}
+	
+	int Command::error(std::string message) {
+		try {
+			auto exception = TCLAP::CmdLineParseException(message);
+			cmd.getOutput()->failure(cmd, exception);
+			return 1;		
+		} catch (TCLAP::ExitException) {
+			return 1;
+		}
+	}
+
+	int Command::requireSubcommand() {
+		return this->error("You must specify a subcommand.");
+	}
+	
 }

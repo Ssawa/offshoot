@@ -11,6 +11,6 @@ namespace offshoot {
 	}
 
 	int MainCommand::execute() {
-		return 0;
+		return this->requireSubcommand();
 	}
 }

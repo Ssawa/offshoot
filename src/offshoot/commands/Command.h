@@ -38,6 +38,10 @@ namespace offshoot {
 		virtual int run(std::vector<std::string>& args);
 		
 		void setTCLAPExceptionHandling(const bool state);
+		
+		int error(std::string message);
+		
+		int requireSubcommand();
 
 		
 	protected:
